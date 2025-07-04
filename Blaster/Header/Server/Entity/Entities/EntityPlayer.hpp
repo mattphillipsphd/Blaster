@@ -115,13 +115,16 @@ namespace Blaster::Server::Entity::Entities
 
             Vector<float, 2> mouseDelta = InputManager::GetInstance().GetMouseDelta();
 
-            const auto transform = camera->GetGameObject()->GetTransform();
-            Vector<float, 3> rotation = transform->GetLocalRotation();
+            const auto cameraTransform = camera->GetGameObject()->GetTransform();
+            const auto playerTransform = GetGameObject()->GetTransform();
+
+            Vector<float, 3> rotation = playerTransform->GetLocalRotation();
 
             rotation.y() -= mouseDelta.x() * MouseSensitivity;
             rotation.x() += mouseDelta.y() * MouseSensitivity;
 
-            transform->SetLocalRotation(rotation);
+            playerTransform->SetLocalRotation({ 0.0f, rotation.y(), 0.0f });
+            cameraTransform->SetLocalRotation({ rotation.x(), 0.0f, 0.0f });
         }
 
         void UpdateMovement()

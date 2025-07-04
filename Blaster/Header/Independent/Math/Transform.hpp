@@ -233,11 +233,15 @@ namespace Blaster::Independent::Math
             using Clock = std::chrono::steady_clock;
 
             const bool positionChanged = (localPosition != lastSyncedPosition);
+            const bool rotationChanged = (localRotation != lastSyncedRotation);
+            const bool scaleChanged = (localScale != lastSyncedScale);
 
-            if (positionChanged)
+            if (positionChanged || rotationChanged || scaleChanged)
                 pendingSync = true;
-            
+
             lastSyncedPosition = localPosition;
+            lastSyncedRotation = localRotation;
+            lastSyncedScale = localScale;
 
             if (!pendingSync)
                 return;
@@ -327,6 +331,8 @@ namespace Blaster::Independent::Math
         Vector<float, 3> localScale = { 1.0f, 1.0f, 1.0f };
 
         Vector<float, 3> lastSyncedPosition = localPosition;
+        Vector<float, 3> lastSyncedRotation = localRotation;
+        Vector<float, 3> lastSyncedScale = localScale;
 
         bool pendingSync = false;
         std::chrono::steady_clock::time_point lastSentTime = std::chrono::steady_clock::now();
