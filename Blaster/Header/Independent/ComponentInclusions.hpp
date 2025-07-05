@@ -6,5 +6,6 @@
 #include "Client/Render/Vertex.hpp"
 #include "Client/Render/Shader.hpp"
 #include "Client/Render/Texture.hpp"
+#include "Client/Render/NameTag.hpp"
 #include "Independent/Math/Transform.hpp"
 #include "Server/Entity/Entities/EntityPlayer.hpp"
