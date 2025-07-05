@@ -10,11 +10,13 @@
 #include "Independent/Utility/Time.hpp"
 #include "Server/Entity/Entities/EntityPlayer.hpp"
 #include "Server/Network/ServerNetwork.hpp"
+#include "Client/Render/NameTag.hpp"
 
 using namespace Blaster::Server::Entity::Entities;
 using namespace Blaster::Independent::ECS::Synchronization;
 using namespace Blaster::Independent::Thread;
 using namespace Blaster::Server::Network;
+using namespace Blaster::Client::Render;
 
 namespace Blaster::Server
 {
@@ -52,6 +54,11 @@ namespace Blaster::Server
                     auto player = GameObjectManager::GetInstance().Register(GameObject::Create("player-" + name, false, who));
 
                     player->AddComponent(EntityPlayer::Create());
+
+                    auto tagGameObject = GameObjectManager::GetInstance().Register(GameObject::Create("tag"), player->GetAbsolutePath());
+                    tagGameObject->GetTransform()->SetLocalPosition({ 0.0f, 2.5f, 0.0f });
+                    tagGameObject->GetTransform()->SetLocalScale({ 1.0f, 1.0f, 1.0f });
+                    tagGameObject->AddComponent(NameTag::Create(name));
 
                     SenderSynchronization::SynchronizeFullTree(who, GameObjectManager::GetInstance().GetAll());
                 });
